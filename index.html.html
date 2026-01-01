@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тоха, пиво? 🍺</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .slide {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+            text-align: center;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        .slide.active {
+            display: flex;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 {
+            font-size: clamp(2rem, 8vw, 4rem);
+            margin-bottom: 1rem;
+            color: #ffd166;
+        }
+        h2 {
+            font-size: clamp(1.5rem, 6vw, 2.5rem);
+            margin: 1rem 0;
+        }
+        p {
+            font-size: clamp(1rem, 4vw, 1.5rem);
+            max-width: 800px;
+            line-height: 1.6;
+            margin: 1.5rem auto;
+        }
+        .btn {
+            background: #ff6b6b;
+            color: white;
+            font-size: clamp(1rem, 4vw, 1.4rem);
+            padding: 12px 30px;
+            border: none;
+            border-radius: 50px;
+            margin-top: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .btn:hover {
+            background: #ff5252;
+            transform: scale(1.05);
+        }
+        .beer-icon {
+            font-size: clamp(3rem, 10vw, 6rem);
+            margin: 1rem 0;
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        .counter {
+            font-size: 1.2rem;
+            margin-top: 1.5rem;
+            color: #aaa;
+        }
+        footer {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #888;
+        }
+        @media (max-width: 480px) {
+            .slide { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="slide active" id="slide1">
+        <h1>Антон!</h1>
+        <div class="beer-icon">🍺</div>
+        <p>Ты давно не держал в руках холодное пиво?</p>
+        <button class="btn" onclick="nextSlide()">Да, пора!</button>
+    </div>
+
+    <div class="slide" id="slide2">
+        <h2>Почему именно сейчас?</h2>
+        <p>✅ Погода — идеальная<br>
+           ✅ Пиво — охлаждено до 4°C<br>
+           ✅ Компания — лучший друг (ты!)</p>
+        <button class="btn" onclick="nextSlide()">Звучит убедительно…</button>
+    </div>
+
+    <div class="slide" id="slide3">
+        <h2>Срочное совещание:</h2>
+        <p><strong>Тема:</strong> «Спасение лета через хмель и солод»<br>
+           <strong>Место:</strong> У кого-нибудь на балконе / в парке / в баре — по обстановке<br>
+           <strong>Время:</strong> Чем скорее — тем лучше 🕒</p>
+        <button class="btn" onclick="nextSlide()">Я в деле!</button>
+    </div>
+
+    <div class="slide" id="slide4">
+        <h1>🎉 Отлично!</h1>
+        <p>Жду твоего сообщения — назначим время и место.</p>
+        <p>А пока…</p>
+        <div class="beer-icon" style="animation: none;">🍻</div>
+        <p><em>«Пиво — это жидкое хлеб, а дружба — его закваска»</em></p>
+        <div class="counter">P.S. Это приглашение самоуничтожится через… ну, ок, не самоуничтожится. Но откладывать — грех.</div>
+    </div>
+
+    <footer>
+        Сделано с душой и хмелем • Для Антона • 2026
+    </footer>
+
+    <script>
+        let current = 1;
+        const total = 4;
+
+        function nextSlide() {
+            document.getElementById('slide' + current).classList.remove('active');
+            current++;
+            if (current > total) current = total;
+            document.getElementById('slide' + current).classList.add('active');
+        }
+
+        // Поддержка свайпов на мобильных
+        let startX = 0;
+        document.body.addEventListener('touchstart', e => {
+            startX = e.touches[0].clientX;
+        });
+        document.body.addEventListener('touchend', e => {
+            const endX = e.changedTouches[0].clientX;
+            if (startX - endX > 50) nextSlide(); // свайп влево → вперёд
+        });
+    </script>
+
+</body>
+</html>
